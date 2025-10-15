@@ -69,6 +69,10 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    'blog-posts': BlogPost;
+    categories: Category;
+    tags: Tag;
+    'country-tags': CountryTag;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,12 +81,16 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
+    'country-tags': CountryTagsSelect<false> | CountryTagsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   globals: {};
   globalsSelect: {};
@@ -118,7 +126,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -142,7 +150,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -158,23 +166,176 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts".
+ */
+export interface BlogPost {
+  id: number;
+  name: string;
+  slug: string;
+  mainImage: number | Media;
+  thumbnailImage: number | Media;
+  altText: string;
+  category: number | Category;
+  tags: (number | Tag)[];
+  countryTag?: (number | null) | CountryTag;
+  date: string;
+  readTime: string;
+  serialNumber?: number | null;
+  postBody: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  taglines?: string | null;
+  tocBasedOn?: string | null;
+  featured?: boolean | null;
+  video?: string | null;
+  storyLink?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords: string;
+  isFaqSchema?: ('yes' | 'no') | null;
+  faqItems?:
+    | {
+        question?: string | null;
+        answer?: string | null;
+        answerRichText?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  isPodcastEpisodeSchema?: ('yes' | 'no') | null;
+  askAmberUrl?: string | null;
+  spotifyLink?: string | null;
+  podcastPublishedDate?: string | null;
+  podcastDuration?: string | null;
+  isVideoObjectSchema?: ('yes' | 'no') | null;
+  videoThumbnailUrl?: string | null;
+  videoContentUrl?: string | null;
+  videoEmbedUrl?: string | null;
+  videoPublishedDate?: string | null;
+  videoDuration?: string | null;
+  isHowToSchema?: ('yes' | 'no') | null;
+  scriptForHowToSchema?: string | null;
+  isItemListSchema?: ('yes' | 'no') | null;
+  scriptForItemListSchema?: string | null;
+  /**
+   * Original Webflow item ID for migration tracking
+   */
+  webflowId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string | null;
+  webflowId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  name: string;
+  slug: string;
+  webflowId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "country-tags".
+ */
+export interface CountryTag {
+  id: number;
+  name: string;
+  slug: string;
+  countryCode?: string | null;
+  webflowId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'blog-posts';
+        value: number | BlogPost;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'tags';
+        value: number | Tag;
+      } | null)
+    | ({
+        relationTo: 'country-tags';
+        value: number | CountryTag;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -184,10 +345,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -207,7 +368,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -252,6 +413,94 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts_select".
+ */
+export interface BlogPostsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  mainImage?: T;
+  thumbnailImage?: T;
+  altText?: T;
+  category?: T;
+  tags?: T;
+  countryTag?: T;
+  date?: T;
+  readTime?: T;
+  serialNumber?: T;
+  postBody?: T;
+  taglines?: T;
+  tocBasedOn?: T;
+  featured?: T;
+  video?: T;
+  storyLink?: T;
+  metaTitle?: T;
+  metaDescription?: T;
+  metaKeywords?: T;
+  isFaqSchema?: T;
+  faqItems?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        answerRichText?: T;
+        id?: T;
+      };
+  isPodcastEpisodeSchema?: T;
+  askAmberUrl?: T;
+  spotifyLink?: T;
+  podcastPublishedDate?: T;
+  podcastDuration?: T;
+  isVideoObjectSchema?: T;
+  videoThumbnailUrl?: T;
+  videoContentUrl?: T;
+  videoEmbedUrl?: T;
+  videoPublishedDate?: T;
+  videoDuration?: T;
+  isHowToSchema?: T;
+  scriptForHowToSchema?: T;
+  isItemListSchema?: T;
+  scriptForItemListSchema?: T;
+  webflowId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  webflowId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  webflowId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "country-tags_select".
+ */
+export interface CountryTagsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  countryCode?: T;
+  webflowId?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

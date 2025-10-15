@@ -9,6 +9,10 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { BlogPosts } from './collections/BlogPosts'
+import { Categories } from './collections/Categories'
+import { Tags } from './collections/Tags'
+import { CountryTags } from './collections/CountryTags'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -20,7 +24,14 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [
+    Users, 
+    Media,
+    BlogPosts,
+    Categories,
+    Tags,
+    CountryTags,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -32,6 +43,9 @@ export default buildConfig({
     },
   }),
   sharp,
+  cors: {
+    origins: ['http://localhost:3002'], // Allow your frontend origin
+  },
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder

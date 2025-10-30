@@ -37,19 +37,6 @@ export const BlogPosts = {
       label: 'Main Image',
     },
     {
-      name: 'thumbnailImage',
-      type: 'upload',
-      relationTo: 'media',
-      required: true,
-      label: 'Thumbnail Image',
-    },
-    {
-      name: 'altText',
-      type: 'text',
-      required: true,
-      label: 'Alt Text',
-    },
-    {
       name: 'category',
       type: 'relationship',
       relationTo: 'categories',
@@ -110,15 +97,15 @@ export const BlogPosts = {
       },
     },
     {
+      name: 'taglines',
+      type: 'text',
+      label: 'Taglines',
+    },
+    {
       name: 'postBody',
       type: 'richText',
       required: true,
       label: 'Post Body',
-    },
-    {
-      name: 'taglines',
-      type: 'text',
-      label: 'Taglines',
     },
     {
       name: 'tocBasedOn',
@@ -141,12 +128,6 @@ export const BlogPosts = {
       type: 'text',
       label: 'Video Link',
     },
-    {
-      name: 'storyLink',
-      type: 'richText',
-      label: 'Story Link',
-    },
-
     // SEO Fields
     {
       type: 'tabs',
@@ -200,52 +181,11 @@ export const BlogPosts = {
                   label: 'Question',
                 },
                 {
-                  name: 'answer',
-                  type: 'text',
-                  label: 'Answer (Plain Text)',
-                },
-                {
                   name: 'answerRichText',
                   type: 'richText',
                   label: 'Answer (Rich Text)',
                 },
               ],
-            },
-          ],
-        },
-
-        // Podcast Schema Tab
-        {
-          label: 'Podcast Schema',
-          fields: [
-            {
-              name: 'isPodcastEpisodeSchema',
-              type: 'select',
-              label: 'Is PodcastEpisode Schema?',
-              options: [
-                { label: 'Yes', value: 'yes' },
-                { label: 'No', value: 'no' },
-              ],
-            },
-            {
-              name: 'askAmberUrl',
-              type: 'text',
-              label: 'Ask Amber URL',
-            },
-            {
-              name: 'spotifyLink',
-              type: 'text',
-              label: 'Spotify Link',
-            },
-            {
-              name: 'podcastPublishedDate',
-              type: 'text',
-              label: 'Podcast Published Date',
-            },
-            {
-              name: 'podcastDuration',
-              type: 'text',
-              label: 'Podcast Duration',
             },
           ],
         },
@@ -333,18 +273,6 @@ export const BlogPosts = {
           ],
         },
       ],
-    },
-
-    // Webflow Migration ID
-    {
-      name: 'webflowId',
-      type: 'text',
-      label: 'Webflow ID',
-      admin: {
-        position: 'sidebar',
-        readOnly: true,
-        description: 'Original Webflow item ID for migration tracking',
-      },
     },
   ],
 } as CollectionConfig

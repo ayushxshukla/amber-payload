@@ -173,14 +173,13 @@ export interface BlogPost {
   name: string;
   slug: string;
   mainImage: number | Media;
-  thumbnailImage: number | Media;
-  altText: string;
   category: number | Category;
   tags: (number | Tag)[];
   countryTag?: (number | null) | CountryTag;
   date: string;
   readTime: string;
   serialNumber?: number | null;
+  taglines?: string | null;
   postBody: {
     root: {
       type: string;
@@ -196,25 +195,9 @@ export interface BlogPost {
     };
     [k: string]: unknown;
   };
-  taglines?: string | null;
   tocBasedOn?: string | null;
   featured?: boolean | null;
   video?: string | null;
-  storyLink?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
   metaTitle: string;
   metaDescription: string;
   metaKeywords: string;
@@ -222,7 +205,6 @@ export interface BlogPost {
   faqItems?:
     | {
         question?: string | null;
-        answer?: string | null;
         answerRichText?: {
           root: {
             type: string;
@@ -241,11 +223,6 @@ export interface BlogPost {
         id?: string | null;
       }[]
     | null;
-  isPodcastEpisodeSchema?: ('yes' | 'no') | null;
-  askAmberUrl?: string | null;
-  spotifyLink?: string | null;
-  podcastPublishedDate?: string | null;
-  podcastDuration?: string | null;
   isVideoObjectSchema?: ('yes' | 'no') | null;
   videoThumbnailUrl?: string | null;
   videoContentUrl?: string | null;
@@ -256,10 +233,6 @@ export interface BlogPost {
   scriptForHowToSchema?: string | null;
   isItemListSchema?: ('yes' | 'no') | null;
   scriptForItemListSchema?: string | null;
-  /**
-   * Original Webflow item ID for migration tracking
-   */
-  webflowId?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -422,20 +395,17 @@ export interface BlogPostsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   mainImage?: T;
-  thumbnailImage?: T;
-  altText?: T;
   category?: T;
   tags?: T;
   countryTag?: T;
   date?: T;
   readTime?: T;
   serialNumber?: T;
-  postBody?: T;
   taglines?: T;
+  postBody?: T;
   tocBasedOn?: T;
   featured?: T;
   video?: T;
-  storyLink?: T;
   metaTitle?: T;
   metaDescription?: T;
   metaKeywords?: T;
@@ -444,15 +414,9 @@ export interface BlogPostsSelect<T extends boolean = true> {
     | T
     | {
         question?: T;
-        answer?: T;
         answerRichText?: T;
         id?: T;
       };
-  isPodcastEpisodeSchema?: T;
-  askAmberUrl?: T;
-  spotifyLink?: T;
-  podcastPublishedDate?: T;
-  podcastDuration?: T;
   isVideoObjectSchema?: T;
   videoThumbnailUrl?: T;
   videoContentUrl?: T;
@@ -463,7 +427,6 @@ export interface BlogPostsSelect<T extends boolean = true> {
   scriptForHowToSchema?: T;
   isItemListSchema?: T;
   scriptForItemListSchema?: T;
-  webflowId?: T;
   updatedAt?: T;
   createdAt?: T;
 }

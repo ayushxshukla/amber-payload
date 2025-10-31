@@ -178,7 +178,6 @@ export interface BlogPost {
   countryTag?: (number | null) | CountryTag;
   date: string;
   readTime: string;
-  serialNumber?: number | null;
   taglines?: string | null;
   postBody: {
     root: {
@@ -400,7 +399,6 @@ export interface BlogPostsSelect<T extends boolean = true> {
   countryTag?: T;
   date?: T;
   readTime?: T;
-  serialNumber?: T;
   taglines?: T;
   postBody?: T;
   tocBasedOn?: T;

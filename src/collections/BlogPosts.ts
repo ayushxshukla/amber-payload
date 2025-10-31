@@ -1,3 +1,5 @@
+import { CodeBlockFeature } from "@/fields/features/CodeBlock/CodeBlockFeature"
+import { FixedToolbarFeature, lexicalEditor } from "@payloadcms/richtext-lexical"
 import type { CollectionConfig } from 'payload'
 
 export const BlogPosts = {
@@ -89,14 +91,6 @@ export const BlogPosts = {
       },
     },
     {
-      name: 'serialNumber',
-      type: 'number',
-      label: 'Serial Number',
-      admin: {
-        position: 'sidebar',
-      },
-    },
-    {
       name: 'taglines',
       type: 'text',
       label: 'Taglines',
@@ -106,6 +100,13 @@ export const BlogPosts = {
       type: 'richText',
       required: true,
       label: 'Post Body',
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [
+          ...defaultFeatures,
+          FixedToolbarFeature(),
+          CodeBlockFeature(),
+        ],
+      })
     },
     {
       name: 'tocBasedOn',

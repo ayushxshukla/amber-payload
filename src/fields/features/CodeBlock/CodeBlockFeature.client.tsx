@@ -28,7 +28,7 @@ const CodeIcon = () => (
   </svg>
 );
 
-export const CodeBlockFeatureClient = (props) => ({
+export const CodeBlockFeatureClient = (props: any ) => ({
   clientFeatureProps: props,
   feature: () => {
     return {

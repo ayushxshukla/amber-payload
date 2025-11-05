@@ -13,6 +13,7 @@ import { Categories } from './collections/Categories'
 import { Tags } from './collections/Tags'
 import { Countries } from './collections/Countries'
 import { s3Storage } from '@payloadcms/storage-s3'
+import { searchPlugin } from '@payloadcms/plugin-search'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -45,6 +46,38 @@ export default buildConfig({
     origins: ['http://localhost:3002'], // Allow your frontend origin
   },
   plugins: [
+    searchPlugin({
+      collections: ['blog-posts'],
+      searchOverrides: {
+        fields: ({ defaultFields }) => {
+          return [
+            ...defaultFields,
+            {
+              name: 'slug',
+              type: 'text',
+              label: 'Slug',
+              admin: {
+                readOnly: true,
+              },
+            }
+          ]
+        }
+
+      },
+      beforeSync: ({ originalDoc, searchDoc }) => {
+        const collection = searchDoc.doc.relationTo;
+
+        if (collection === 'blog-posts') {
+
+          return {
+            ...searchDoc,
+            title: originalDoc.name,
+            slug: originalDoc.slug,
+          }
+        }
+        return searchDoc;
+      }
+    }),
     // storage-adapter-placeholder
     // for local and staging use differnt bucket , for production use another bucket
     s3Storage({

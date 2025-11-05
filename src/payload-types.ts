@@ -72,7 +72,7 @@ export interface Config {
     'blog-posts': BlogPost;
     categories: Category;
     tags: Tag;
-    'country-tags': CountryTag;
+    countries: Country;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -84,7 +84,7 @@ export interface Config {
     'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
-    'country-tags': CountryTagsSelect<false> | CountryTagsSelect<true>;
+    countries: CountriesSelect<false> | CountriesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -152,6 +152,7 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -175,7 +176,7 @@ export interface BlogPost {
   mainImage: number | Media;
   category: number | Category;
   tags: (number | Tag)[];
-  countryTag?: (number | null) | CountryTag;
+  countryTag?: (number | null) | Country;
   date: string;
   readTime: string;
   taglines?: string | null;
@@ -232,8 +233,14 @@ export interface BlogPost {
   scriptForHowToSchema?: string | null;
   isItemListSchema?: ('yes' | 'no') | null;
   scriptForItemListSchema?: string | null;
+  webflowId: string;
+  /**
+   * Archive this post to hide it from listings
+   */
+  isArchived?: boolean | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -243,10 +250,17 @@ export interface Category {
   id: number;
   name: string;
   slug: string;
-  description?: string | null;
-  webflowId?: string | null;
+  metaDescription?: string | null;
+  webflowId: string;
+  title?: string | null;
+  categoriesTagline?: string | null;
+  /**
+   * Archive this post to hide it from listings
+   */
+  isArchived?: boolean | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -256,22 +270,34 @@ export interface Tag {
   id: number;
   name: string;
   slug: string;
-  webflowId?: string | null;
+  title?: string | null;
+  metaDescription?: string | null;
+  webflowId: string;
+  /**
+   * Archive this post to hide it from listings
+   */
+  isArchived?: boolean | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "country-tags".
+ * via the `definition` "countries".
  */
-export interface CountryTag {
+export interface Country {
   id: number;
   name: string;
   slug: string;
   countryCode?: string | null;
   webflowId?: string | null;
+  /**
+   * Archive this post to hide it from listings
+   */
+  isArchived?: boolean | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -301,8 +327,8 @@ export interface PayloadLockedDocument {
         value: number | Tag;
       } | null)
     | ({
-        relationTo: 'country-tags';
-        value: number | CountryTag;
+        relationTo: 'countries';
+        value: number | Country;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -374,6 +400,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -425,8 +452,11 @@ export interface BlogPostsSelect<T extends boolean = true> {
   scriptForHowToSchema?: T;
   isItemListSchema?: T;
   scriptForItemListSchema?: T;
+  webflowId?: T;
+  isArchived?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -435,10 +465,14 @@ export interface BlogPostsSelect<T extends boolean = true> {
 export interface CategoriesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
-  description?: T;
+  metaDescription?: T;
   webflowId?: T;
+  title?: T;
+  categoriesTagline?: T;
+  isArchived?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -447,21 +481,27 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface TagsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
+  title?: T;
+  metaDescription?: T;
   webflowId?: T;
+  isArchived?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "country-tags_select".
+ * via the `definition` "countries_select".
  */
-export interface CountryTagsSelect<T extends boolean = true> {
+export interface CountriesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   countryCode?: T;
   webflowId?: T;
+  isArchived?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

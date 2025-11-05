@@ -178,6 +178,7 @@ export interface BlogPost {
   tags: (number | Tag)[];
   countryTag?: (number | null) | Country;
   date: string;
+  webflowlastPublished?: string | null;
   readTime: string;
   taglines?: string | null;
   postBody: {
@@ -233,7 +234,7 @@ export interface BlogPost {
   scriptForHowToSchema?: string | null;
   isItemListSchema?: ('yes' | 'no') | null;
   scriptForItemListSchema?: string | null;
-  webflowId: string;
+  webflowId?: string | null;
   /**
    * Archive this post to hide it from listings
    */
@@ -251,9 +252,10 @@ export interface Category {
   name: string;
   slug: string;
   metaDescription?: string | null;
-  webflowId: string;
+  webflowId?: string | null;
   title?: string | null;
   categoriesTagline?: string | null;
+  thumbnail?: (number | null) | Media;
   /**
    * Archive this post to hide it from listings
    */
@@ -272,7 +274,7 @@ export interface Tag {
   slug: string;
   title?: string | null;
   metaDescription?: string | null;
-  webflowId: string;
+  webflowId?: string | null;
   /**
    * Archive this post to hide it from listings
    */
@@ -291,6 +293,8 @@ export interface Country {
   slug: string;
   countryCode?: string | null;
   webflowId?: string | null;
+  rankning?: number | null;
+  logo?: (number | null) | Media;
   /**
    * Archive this post to hide it from listings
    */
@@ -425,6 +429,7 @@ export interface BlogPostsSelect<T extends boolean = true> {
   tags?: T;
   countryTag?: T;
   date?: T;
+  webflowlastPublished?: T;
   readTime?: T;
   taglines?: T;
   postBody?: T;
@@ -469,6 +474,7 @@ export interface CategoriesSelect<T extends boolean = true> {
   webflowId?: T;
   title?: T;
   categoriesTagline?: T;
+  thumbnail?: T;
   isArchived?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -498,6 +504,8 @@ export interface CountriesSelect<T extends boolean = true> {
   slug?: T;
   countryCode?: T;
   webflowId?: T;
+  rankning?: T;
+  logo?: T;
   isArchived?: T;
   updatedAt?: T;
   createdAt?: T;

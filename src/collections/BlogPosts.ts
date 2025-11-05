@@ -1,9 +1,13 @@
-import { CodeBlockFeature } from "@/fields/features/CodeBlock/CodeBlockFeature"
-import { FixedToolbarFeature, lexicalEditor } from "@payloadcms/richtext-lexical"
+import { CodeBlockFeature } from '@/fields/features/CodeBlock/CodeBlockFeature'
+import { FixedToolbarFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import type { CollectionConfig } from 'payload'
 
 export const BlogPosts = {
   slug: 'blog-posts',
+  versions: {
+    drafts: true,
+    maxPerDoc: 50,
+  },
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'date', 'featured'],
@@ -62,7 +66,7 @@ export const BlogPosts = {
     {
       name: 'countryTag',
       type: 'relationship',
-      relationTo: 'country-tags',
+      relationTo: 'countries',
       required: false,
       label: 'Country Tag',
       admin: {
@@ -79,6 +83,15 @@ export const BlogPosts = {
         date: {
           pickerAppearance: 'dayAndTime',
         },
+      },
+    },
+    {
+      name: 'webflowlastPublished',
+      type: 'date',
+      label: 'Webflow Last Published',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
       },
     },
     {
@@ -106,7 +119,7 @@ export const BlogPosts = {
           FixedToolbarFeature(),
           CodeBlockFeature(),
         ],
-      })
+      }),
     },
     {
       name: 'tocBasedOn',
@@ -274,6 +287,23 @@ export const BlogPosts = {
           ],
         },
       ],
+    },
+    {
+      name: 'webflowId',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+      },
+    },
+    {
+      name: 'isArchived',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Archive this post to hide it from listings',
+      },
     },
   ],
 } as CollectionConfig

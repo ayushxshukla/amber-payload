@@ -1,8 +1,8 @@
 import type { CollectionConfig } from 'payload'
 
-// Categories Collection
-export const Categories: CollectionConfig = {
-  slug: 'categories',
+// Countries Collection
+export const Countries: CollectionConfig = {
+  slug: 'countries',
   versions: {
     drafts: true,
     maxPerDoc: 50,
@@ -26,8 +26,9 @@ export const Categories: CollectionConfig = {
       unique: true,
     },
     {
-      name: 'metaDescription',
-      type: 'textarea',
+      name: 'countryCode',
+      type: 'text',
+      label: 'Country Code (e.g., US, IN, UK)',
     },
     {
       name: 'webflowId',
@@ -37,18 +38,15 @@ export const Categories: CollectionConfig = {
       },
     },
     {
-      name: 'title',
-      type: 'text',
+      name: 'rankning',
+      type: 'number',
+      label: 'Ranking',
     },
     {
-      name: 'categoriesTagline',
-      type: 'text',
-    },
-    {
-      name: 'thumbnail',
+      name: 'logo',
       type: 'upload',
       relationTo: 'media',
-      label: 'Thumbnail',
+      label: 'Logo',
     },
     {
       name: 'isArchived',

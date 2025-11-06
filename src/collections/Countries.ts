@@ -11,7 +11,14 @@ export const Countries: CollectionConfig = {
     useAsTitle: 'name',
   },
   access: {
+    // Public can read
     read: () => true,
+    // Both admin and content writers can create
+    create: ({ req: { user } }) => Boolean(user),
+    // Both admin and content writers can update
+    update: ({ req: { user } }) => Boolean(user),
+    // Only admins can delete
+    delete: ({ req: { user } }) => user?.role === 'admin',
   },
   fields: [
     {

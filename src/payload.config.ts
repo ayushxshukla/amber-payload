@@ -40,6 +40,8 @@ export default buildConfig({
       password: process.env.POSTGRES_PASSWORD,
       // connectionString: process.env.DATABASE_URI,
     },
+    push: false,
+    migrationDir: './src/migrations',
   }),
   sharp,
   cors: {
@@ -59,24 +61,22 @@ export default buildConfig({
               admin: {
                 readOnly: true,
               },
-            }
+            },
           ]
-        }
-
+        },
       },
       beforeSync: ({ originalDoc, searchDoc }) => {
-        const collection = searchDoc.doc.relationTo;
+        const collection = searchDoc.doc.relationTo
 
         if (collection === 'blog-posts') {
-
           return {
             ...searchDoc,
             title: originalDoc.name,
             slug: originalDoc.slug,
           }
         }
-        return searchDoc;
-      }
+        return searchDoc
+      },
     }),
     // storage-adapter-placeholder
     // for local and staging use differnt bucket , for production use another bucket

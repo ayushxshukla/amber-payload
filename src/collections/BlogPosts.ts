@@ -13,7 +13,14 @@ export const BlogPosts = {
     defaultColumns: ['name', 'category', 'date', 'featured'],
   },
   access: {
+    // Public can read published posts
     read: () => true,
+    // Both admin and content writers can create
+    create: ({ req: { user } }) => Boolean(user),
+    // Both admin and content writers can update
+    update: ({ req: { user } }) => Boolean(user),
+    // Only admins can delete
+    delete: ({ req: { user } }) => user?.role === 'admin',
   },
   fields: [
     // Basic Info

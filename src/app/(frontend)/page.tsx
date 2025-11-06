@@ -1,11 +1,10 @@
 import { headers as getHeaders } from 'next/headers.js'
 import Image from 'next/image'
 import { getPayload } from 'payload'
-import React from 'react'
 import { fileURLToPath } from 'url'
 
 import config from '@/payload.config'
-import './styles.css'
+import { LogoutButton } from "./components/LogoutButton"
 
 export default async function HomePage() {
   const headers = await getHeaders()
@@ -19,12 +18,12 @@ export default async function HomePage() {
     <div className="home">
       <div className="content">
         <picture>
-          <source srcSet="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg" />
+          <source srcSet="https://webflow-amber-prod.gumlet.io/620e4101b2ce125835bff0bb/amberCMS_logo_white.webp" />
           <Image
-            alt="Payload Logo"
-            height={65}
-            src="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg"
-            width={65}
+            alt="AmberCMS Logo"
+            height={250}
+            src="https://webflow-amber-prod.gumlet.io/620e4101b2ce125835bff0bb/amberCMS_logo_white.webp"
+            width={250}
           />
         </picture>
         {!user && <h1>Welcome to your new project.</h1>}
@@ -38,22 +37,12 @@ export default async function HomePage() {
           >
             Go to admin panel
           </a>
-          <a
-            className="docs"
-            href="https://payloadcms.com/docs"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Documentation
-          </a>
+          {user && (
+            <LogoutButton />
+        )}
         </div>
       </div>
-      <div className="footer">
-        <p>Update this page by editing</p>
-        <a className="codeLink" href={fileURL}>
-          <code>app/(frontend)/page.tsx</code>
-        </a>
-      </div>
+     
     </div>
   )
 }

@@ -38,6 +38,9 @@ export const BlogPosts = {
       label: 'Slug',
       admin: {
         position: 'sidebar',
+        components: {
+          Field: '@/components/SlugField#SlugFieldComponent',
+        },
       },
     },
 

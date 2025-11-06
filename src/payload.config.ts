@@ -24,6 +24,9 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      actions: ['/components/AdminPanelLogoutButton#AdminPanelLogoutButton'],
+    },
   },
   collections: [Users, Media, BlogPosts, Categories, Tags, Countries],
   editor: lexicalEditor(),

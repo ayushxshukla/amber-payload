@@ -74,7 +74,7 @@ p {
 a {
   color: currentColor;
 
-  &:focus {
+  &:focus, &:hover {
     opacity: 0.8;
     outline: none;
   }
@@ -87,6 +87,28 @@ a {
 
 svg {
   vertical-align: middle;
+}
+
+button {
+  color: rgb(0, 0, 0);
+  /* background: rgb(1000, 1000, 1000); */
+  border: 1px solid rgb(0, 0, 0);
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  font-family: system-ui;
+
+  font-size: 1rem;
+  line-height: 1.5rem;
+  border-radius: 4px;
+
+  &:hover:not(:disabled) {
+    opacity: 0.8;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
 .home {
@@ -125,6 +147,9 @@ svg {
       text-decoration: none;
       padding: 0.25rem 0.5rem;
       border-radius: 4px;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      border-radius: 4px;
     }
 
     .admin {
@@ -133,11 +158,6 @@ svg {
       border: 1px solid rgb(0, 0, 0);
     }
 
-    .docs {
-      color: rgb(1000, 1000, 1000);
-      background: rgb(0, 0, 0);
-      border: 1px solid rgb(1000, 1000, 1000);
-    }
   }
 
   .footer {

@@ -14,6 +14,7 @@ import { Tags } from './collections/Tags'
 import { Countries } from './collections/Countries'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { searchPlugin } from '@payloadcms/plugin-search'
+import { Redirects } from './collections/Redirects'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -28,7 +29,7 @@ export default buildConfig({
       actions: ['/components/AdminPanelLogoutButton#AdminPanelLogoutButton'],
     },
   },
-  collections: [Users, Media, BlogPosts, Categories, Tags, Countries],
+  collections: [Users, Media, BlogPosts, Categories, Tags, Countries, Redirects],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -81,6 +82,7 @@ export default buildConfig({
         return searchDoc
       },
     }),
+
     // storage-adapter-placeholder
     // for local and staging use differnt bucket , for production use another bucket
     s3Storage({

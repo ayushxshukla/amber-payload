@@ -73,6 +73,7 @@ export interface Config {
     categories: Category;
     tags: Tag;
     countries: Country;
+    'home-featured': HomeFeatured;
     redirects: Redirect;
     search: Search;
     'payload-kv': PayloadKv;
@@ -88,6 +89,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     countries: CountriesSelect<false> | CountriesSelect<true>;
+    'home-featured': HomeFeaturedSelect<false> | HomeFeaturedSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -311,6 +313,25 @@ export interface Country {
   _status?: ('draft' | 'published') | null;
 }
 /**
+
+ * Manage featured blogs on the homepage (1-10 blogs)
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-featured".
+ */
+export interface HomeFeatured {
+  id: number;
+  /**
+   * Add 1-10 featured blogs. Drag to reorder. The order here determines the display order on the homepage.
+   */
+  featuredBlogs: {
+    blog: number | BlogPost;
+    id?: string | null;
+  }[];
+    updatedAt: string;
+  createdAt: string;
+}
+
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
@@ -393,6 +414,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'countries';
         value: number | Country;
+      } | null)
+    | ({
+        relationTo: 'home-featured';
+        value: number | HomeFeatured;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -582,8 +607,20 @@ export interface CountriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "redirects_select".
+
+ * via the `definition` "home-featured_select".
  */
+export interface HomeFeaturedSelect<T extends boolean = true> {
+  featuredBlogs?:
+    | T
+    | {
+        blog?: T;
+        id?: T;
+      };
+   updatedAt?: T;
+   createdAt?: T;
+}
+
 export interface RedirectsSelect<T extends boolean = true> {
   from?: T;
   to?: T;

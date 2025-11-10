@@ -12,6 +12,7 @@ import { BlogPosts } from './collections/BlogPosts'
 import { Categories } from './collections/Categories'
 import { Tags } from './collections/Tags'
 import { Countries } from './collections/Countries'
+import { HomeFeatured } from './collections/HomeFeatured'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { Redirects } from './collections/Redirects'
@@ -29,7 +30,8 @@ export default buildConfig({
       actions: ['/components/AdminPanelLogoutButton#AdminPanelLogoutButton'],
     },
   },
-  collections: [Users, Media, BlogPosts, Categories, Tags, Countries, Redirects],
+
+  collections: [Users, Media, BlogPosts, Categories, Tags, Countries,HomeFeatured, Redirects],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

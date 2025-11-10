@@ -73,6 +73,7 @@ export interface Config {
     categories: Category;
     tags: Tag;
     countries: Country;
+    'home-featured': HomeFeatured;
     search: Search;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -87,6 +88,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     countries: CountriesSelect<false> | CountriesSelect<true>;
+    'home-featured': HomeFeaturedSelect<false> | HomeFeaturedSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -309,6 +311,24 @@ export interface Country {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Manage featured blogs on the homepage (1-10 blogs)
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-featured".
+ */
+export interface HomeFeatured {
+  id: number;
+  /**
+   * Add 1-10 featured blogs. Drag to reorder. The order here determines the display order on the homepage.
+   */
+  featuredBlogs: {
+    blog: number | BlogPost;
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This is a collection of automatically created search results. These results are used by the global site search and will be updated automatically as documents in the CMS are created or updated.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -373,6 +393,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'countries';
         value: number | Country;
+      } | null)
+    | ({
+        relationTo: 'home-featured';
+        value: number | HomeFeatured;
       } | null)
     | ({
         relationTo: 'search';
@@ -555,6 +579,20 @@ export interface CountriesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-featured_select".
+ */
+export interface HomeFeaturedSelect<T extends boolean = true> {
+  featuredBlogs?:
+    | T
+    | {
+        blog?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

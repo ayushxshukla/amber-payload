@@ -74,6 +74,7 @@ export interface Config {
     tags: Tag;
     countries: Country;
     'home-featured': HomeFeatured;
+    redirects: Redirect;
     search: Search;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -89,6 +90,7 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     countries: CountriesSelect<false> | CountriesSelect<true>;
     'home-featured': HomeFeaturedSelect<false> | HomeFeaturedSelect<true>;
+    redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -311,6 +313,7 @@ export interface Country {
   _status?: ('draft' | 'published') | null;
 }
 /**
+
  * Manage featured blogs on the homepage (1-10 blogs)
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -325,6 +328,24 @@ export interface HomeFeatured {
     blog: number | BlogPost;
     id?: string | null;
   }[];
+    updatedAt: string;
+  createdAt: string;
+}
+
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects".
+ */
+export interface Redirect {
+  id: number;
+  /**
+   * The old URL path (e.g., /post/old-slug)
+   */
+  from: string;
+  /**
+   * The new URL path (e.g., /blog/post/new-slug)
+   */
+  to: string;
+  type: '301' | '302';
   updatedAt: string;
   createdAt: string;
 }
@@ -397,6 +418,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'home-featured';
         value: number | HomeFeatured;
+      } | null)
+    | ({
+        relationTo: 'redirects';
+        value: number | Redirect;
       } | null)
     | ({
         relationTo: 'search';
@@ -582,6 +607,7 @@ export interface CountriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+
  * via the `definition` "home-featured_select".
  */
 export interface HomeFeaturedSelect<T extends boolean = true> {
@@ -591,6 +617,14 @@ export interface HomeFeaturedSelect<T extends boolean = true> {
         blog?: T;
         id?: T;
       };
+   updatedAt?: T;
+   createdAt?: T;
+}
+
+export interface RedirectsSelect<T extends boolean = true> {
+  from?: T;
+  to?: T;
+  type?: T;
   updatedAt?: T;
   createdAt?: T;
 }
